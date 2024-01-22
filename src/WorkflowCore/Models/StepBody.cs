@@ -41,4 +41,16 @@ namespace WorkflowCore.Models
             };
         }
     }
+
+    public abstract class StepBody<T1> : StepBody
+    {
+    }
+
+    public abstract class StepBody<T1,T2> : StepBody
+    {
+    }
+
+    public abstract class StepBody<T1,T2,T3> : StepBody
+    {
+    }
 }

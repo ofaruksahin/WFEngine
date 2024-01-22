@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Reflection;
-using Newtonsoft.Json.Linq;
+using WorkflowCore.Exceptions;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
-using WorkflowCore.Primitives;
 using WorkflowCore.Models.DefinitionStorage.v1;
-using WorkflowCore.Exceptions;
+using WorkflowCore.Primitives;
 
 namespace WorkflowCore.Services.DefinitionStorage
 {
@@ -35,7 +35,7 @@ namespace WorkflowCore.Services.DefinitionStorage
         {
             var dataType = typeof(object);
             if (!string.IsNullOrEmpty(source.DataType))
-                dataType = FindType(source.DataType);
+                dataType = FindType(source);
 
             var result = new WorkflowDefinition
             {
@@ -51,7 +51,6 @@ namespace WorkflowCore.Services.DefinitionStorage
             return result;
         }
 
-
         private WorkflowStepCollection ConvertSteps(ICollection<StepSourceV1> source, Type dataType)
         {
             var result = new WorkflowStepCollection();
@@ -64,7 +63,7 @@ namespace WorkflowCore.Services.DefinitionStorage
             {
                 var nextStep = stack.Pop();
 
-                var stepType = FindType(nextStep.StepType);
+                var stepType = FindType(nextStep);
 
                 WorkflowStep targetStep;
 
@@ -220,10 +219,11 @@ namespace WorkflowCore.Services.DefinitionStorage
                 var dataParameter = Expression.Parameter(dataType, "data");
 
 
-                if(output.Key.Contains(".") || output.Key.Contains("["))
+                if (output.Key.Contains(".") || output.Key.Contains("["))
                 {
                     AttachNestedOutput(output, step, source, sourceExpr, dataParameter);
-                }else
+                }
+                else
                 {
                     AttachDirectlyOutput(output, step, dataType, sourceExpr, dataParameter);
                 }
@@ -259,11 +259,11 @@ namespace WorkflowCore.Services.DefinitionStorage
 
         }
 
-        private void AttachNestedOutput( KeyValuePair<string, string> output, WorkflowStep step, StepSourceV1 source, LambdaExpression sourceExpr, ParameterExpression dataParameter)
+        private void AttachNestedOutput(KeyValuePair<string, string> output, WorkflowStep step, StepSourceV1 source, LambdaExpression sourceExpr, ParameterExpression dataParameter)
         {
             PropertyInfo propertyInfo = null;
             String[] paths = output.Key.Split('.');
-         
+
             Expression targetProperty = dataParameter;
 
             bool hasAddOutput = false;
@@ -350,9 +350,38 @@ namespace WorkflowCore.Services.DefinitionStorage
             }
         }
 
-        private Type FindType(string name)
+        private Type FindType(DefinitionSourceV1 definitionSource)
         {
-            return Type.GetType(name, true, true);
+            return Type.GetType(definitionSource.DataType, true, true);
+        }
+
+        private Type FindType(StepSourceV1 stepSource)
+        {
+            if (stepSource.Arguments.Any())
+            {
+                var stepTypePieces = stepSource.StepType.Split(',');
+
+                if (stepTypePieces.Length != 2)
+                    throw new InvalidGenericTypeException(stepSource.StepType);
+
+                var className = stepTypePieces[0];
+                var assemblyName = stepTypePieces[1];
+
+                className = $"{className}`{stepSource.Arguments.Length}";
+
+                var qualifiedName = $"{className}, {assemblyName}";
+
+                List<Type> arguments = new List<Type>();
+
+                foreach (var argument in stepSource.Arguments)
+                {
+                    arguments.Add(Type.GetType(argument, true, true));
+                }
+
+                return Type.GetType(qualifiedName).MakeGenericType(arguments.ToArray());
+            }
+
+            return Type.GetType(stepSource.StepType, true, true);
         }
 
         private static Action<IStepBody, object, IStepExecutionContext> BuildScalarInputAction(KeyValuePair<string, object> input, ParameterExpression dataParameter, ParameterExpression contextParameter, ParameterExpression environmentVarsParameter, PropertyInfo stepProperty)
@@ -406,6 +435,5 @@ namespace WorkflowCore.Services.DefinitionStorage
             }
             return acn;
         }
-
     }
 }

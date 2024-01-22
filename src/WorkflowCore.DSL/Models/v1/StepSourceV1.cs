@@ -30,6 +30,8 @@ namespace WorkflowCore.Models.DefinitionStorage.v1
 
         public Dictionary<string, string> Outputs { get; set; } = new Dictionary<string, string>();
 
+        public string[] Arguments { get; set; } = new string[0];
+
         public Dictionary<string, string> SelectNextStep { get; set; } = new Dictionary<string, string>();
 
         public bool ProceedOnCancel { get; set; } = false;
