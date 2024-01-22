@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <AssemblyTitle>Workflow Core</AssemblyTitle>
-    <Authors>Daniel Gerlag</Authors>
+    <Authors>Ömer Faruk Şahin</Authors>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>WFEngineCore</AssemblyName>
     <PackageId>WFEngineCore</PackageId>
@@ -10,7 +10,8 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <Description>Workflow Core is a light weight workflow engine targeting .NET Standard.</Description>
+    <Description>This library is used for creating workflows with drag-and-drop functionality, allowing you to quickly build your code.</Description>
+    <Product>WFEngine</Product>
   </PropertyGroup>
 
   <ItemGroup>

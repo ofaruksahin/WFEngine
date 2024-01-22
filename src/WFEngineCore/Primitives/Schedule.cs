@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using WFEngineCore.Attributes;
 using WFEngineCore.Interface;
 using WFEngineCore.Models;
 
 namespace WFEngineCore.Primitives
 {
+    [IgnoreActivity]
+    [Obsolete]
     public class Schedule : ContainerStepBody
     {
         public TimeSpan Interval { get; set; }

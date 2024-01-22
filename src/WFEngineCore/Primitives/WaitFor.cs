@@ -1,9 +1,12 @@
 ﻿using System;
+using WFEngineCore.Attributes;
 using WFEngineCore.Interface;
 using WFEngineCore.Models;
 
 namespace WFEngineCore.Primitives
 {
+    [IgnoreActivity]
+    [Obsolete]
     public class WaitFor : StepBody
     {
         public string EventKey { get; set; }

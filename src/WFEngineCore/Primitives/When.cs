@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using WFEngineCore.Attributes;
 using WFEngineCore.Exceptions;
 using WFEngineCore.Interface;
 using WFEngineCore.Models;
 
 namespace WFEngineCore.Primitives
 {
+    [IgnoreActivity]
+    [Obsolete]
     public class When : ContainerStepBody
     {
         public object ExpectedOutcome { get; set; }

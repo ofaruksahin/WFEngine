@@ -1,11 +1,14 @@
-﻿using System.Linq;
+﻿using System;
 using System.Collections.Generic;
+using WFEngineCore.Attributes;
 using WFEngineCore.Exceptions;
 using WFEngineCore.Interface;
 using WFEngineCore.Models;
 
 namespace WFEngineCore.Primitives
 {
+    [IgnoreActivity]
+    [Obsolete]
     public class OutcomeSwitch : ContainerStepBody
     {
         public override ExecutionResult Run(IStepExecutionContext context)

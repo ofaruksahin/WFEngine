@@ -1,8 +1,10 @@
 ﻿using System;
+using WFEngineCore.Attributes;
 using WFEngineCore.Models;
 
 namespace WFEngineCore.Primitives
 {
+    [Activity("End", "This step is used to terminate your current workflow","Basic")]
     public class EndStep : WorkflowStep
     {
         public override Type BodyType => null;

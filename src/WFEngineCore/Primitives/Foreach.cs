@@ -1,11 +1,15 @@
-﻿using System.Linq;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using WFEngineCore.Attributes;
 using WFEngineCore.Interface;
 using WFEngineCore.Models;
 
 namespace WFEngineCore.Primitives
 {
+    [IgnoreActivity]
+    [Obsolete]
     public class Foreach : ContainerStepBody
     {
         public IEnumerable Collection { get; set; }

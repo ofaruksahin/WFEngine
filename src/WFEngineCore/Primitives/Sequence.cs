@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using WFEngineCore.Attributes;
 using WFEngineCore.Exceptions;
 using WFEngineCore.Interface;
 using WFEngineCore.Models;
 
 namespace WFEngineCore.Primitives
 {
+    [IgnoreActivity]
+    [Obsolete]
     public class Sequence : ContainerStepBody
     {
         public override ExecutionResult Run(IStepExecutionContext context)

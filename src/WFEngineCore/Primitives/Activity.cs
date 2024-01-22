@@ -1,10 +1,13 @@
 ﻿using System;
+using WFEngineCore.Attributes;
 using WFEngineCore.Exceptions;
 using WFEngineCore.Interface;
 using WFEngineCore.Models;
 
 namespace WFEngineCore.Primitives
 {
+    [IgnoreActivity]
+    [Obsolete]
     public class Activity : StepBody
     {
         public string ActivityName { get; set; }

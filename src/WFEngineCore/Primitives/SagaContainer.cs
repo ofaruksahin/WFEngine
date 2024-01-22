@@ -1,8 +1,12 @@
-﻿using WFEngineCore.Interface;
+﻿using System;
+using WFEngineCore.Attributes;
+using WFEngineCore.Interface;
 using WFEngineCore.Models;
 
 namespace WFEngineCore.Primitives
 {
+    [IgnoreActivity]
+    [Obsolete]
     public class SagaContainer<TStepBody> : WorkflowStep<TStepBody>
         where TStepBody : IStepBody
     {
