@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model WFEngine.Presentation.AuthorizationServer.ViewModels.LoginViewModel
+@inject IViewLocalizer l
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WFEngine</title>
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="~/css/vendors/icofont.css">
+    <link rel="stylesheet" type="text/css" href="~/css/vendors/themify.css">
+    <link rel="stylesheet" type="text/css" href="~/css/vendors/flag-icon.css">
+    <link rel="stylesheet" type="text/css" href="~/css/vendors/feather-icon.css">
+    <link rel="stylesheet" type="text/css" href="~/css/vendors/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/css/responsive.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-7"><img class="bg-img-cover bg-center" src="~/images/login/2.jpg" alt="looginpage"></div>
+            <div class="col-xl-5 p-0">
+                <div class="login-card login-dark">
+                    <div>
+                        <div class="login-main">
+                            <form asp-route="index" class="theme-form">
+
+                                @* <input type="hidden" asp-for="ReturnUrl" /> *@
+
+                                <h4>@l["LoginTitle"]</h4>
+                                <p>@l["LoginSubTitle"]</p>
+                                <div class="form-group">
+                                    <partial name="_ValidationSummary" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">@l["Email"]</label>
+                                    <input class="form-control" placeholder="Email" type="email" asp-for="Email" autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">@l["Password"]</label>
+                                    <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
+                                </div>
+
+                                <div class="form-group mb-0">
+                                    <div class="checkbox p-0">
+                                        <input asp-for="RememberMe">
+                                        <label class="text-muted" asp-for="RememberMe">
+                                            @l["RememberMeButtonText"]
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-block w-100" name="button" value="login">@l["LoginButtonText"]</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="~/js/jquery.min.js"></script>
+        <script src="~/js/bootstrap/bootstrap.bundle.min.js"></script>
+        <script src="~/js/icons/feather-icon/feather.min.js"></script>
+        <script src="~/js/icons/feather-icon/feather-icon.js"></script>
+        <script src="~/js/config.js"></script>
+        <script src="~/js/script.js"></script>
+    </div>
+</body>
+</html>

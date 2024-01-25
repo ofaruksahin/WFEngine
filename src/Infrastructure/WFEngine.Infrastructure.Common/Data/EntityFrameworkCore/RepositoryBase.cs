@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using System.Linq.Expressions;
 using WFEngine.Domain.Common;
 using WFEngine.Domain.Common.Contracts;
 using WFEngine.Domain.Common.Enums;
 using WFEngine.Domain.Common.ValueObjects;
+using WFEngine.Infrastructure.Common.Data.EntityFrameworkCore.Extensions;
 
 namespace WFEngine.Infrastructure.Common.Data.EntityFrameworkCore
 {
@@ -50,12 +49,17 @@ namespace WFEngine.Infrastructure.Common.Data.EntityFrameworkCore
             _context.Set<TEntity>().UpdateRange(entities);
         }
 
-        public async Task<List<TEntity>> GetAll(RepositoryExpressionValueObject<TEntity> expression)
+        public async Task<TEntity> Get(RepositoryExpressions<TEntity> expression)
+        {
+            return await GetQuery(expression).FirstOrDefaultAsync();
+        }
+
+        public async Task<List<TEntity>> GetAll(RepositoryExpressions<TEntity> expression)
         {
             return await GetQuery(expression).ToListAsync();
         }
 
-        private IQueryable<TEntity> GetQuery(RepositoryExpressionValueObject<TEntity> expression)
+        private IQueryable<TEntity> GetQuery(RepositoryExpressions<TEntity> expression)
         {
             var query = _context.Set<TEntity>().AsQueryable();
 
@@ -67,6 +71,11 @@ namespace WFEngine.Infrastructure.Common.Data.EntityFrameworkCore
 
             if (expression.OrderBy is not null)
                 query = expression.OrderBy(query);
+
+            foreach (var condition in expression.ConditionalFilters)
+                query = query.WhereIf(condition.Key, condition.Value);
+
+            query = query.AsNoTracking();
 
             return query;
         }

@@ -19,15 +19,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{DF386653-2BA2-4AA0-A9C9-DB68E354A357}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFEngine.Domain.Common", "src\Domain\WFEngine.Domain.Common\WFEngine.Domain.Common.csproj", "{F31CBE8B-5286-49A7-BCA4-7EE41C5D97BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.Domain.Common", "src\Domain\WFEngine.Domain.Common\WFEngine.Domain.Common.csproj", "{F31CBE8B-5286-49A7-BCA4-7EE41C5D97BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFEngine.Application.Common", "src\Application\WFEngine.Application.Common\WFEngine.Application.Common.csproj", "{6D017F69-C7CF-4F38-AEA4-710857E5ECF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.Application.Common", "src\Application\WFEngine.Application.Common\WFEngine.Application.Common.csproj", "{6D017F69-C7CF-4F38-AEA4-710857E5ECF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFEngine.Infrastructure.Common", "src\Infrastructure\WFEngine.Infrastructure.Common\WFEngine.Infrastructure.Common.csproj", "{83AC7828-5034-4F11-B655-94EC266D6946}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.Infrastructure.Common", "src\Infrastructure\WFEngine.Infrastructure.Common\WFEngine.Infrastructure.Common.csproj", "{83AC7828-5034-4F11-B655-94EC266D6946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFEngine.Presentation.AuthorizationServer", "src\Presentation\WFEngine.Presentation.AuthorizationServer\WFEngine.Presentation.AuthorizationServer.csproj", "{D2A4DE51-ADFD-4C46-A5B4-F7B2C5C8E92E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.Presentation.AuthorizationServer", "src\Presentation\WFEngine.Presentation.AuthorizationServer\WFEngine.Presentation.AuthorizationServer.csproj", "{D2A4DE51-ADFD-4C46-A5B4-F7B2C5C8E92E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFEngine.Domain.Authorization", "src\Domain\WFEngine.Domain.Authorization\WFEngine.Domain.Authorization.csproj", "{E2F05B81-080B-4CF0-93C3-D02C8C4DEBE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.Domain.Authorization", "src\Domain\WFEngine.Domain.Authorization\WFEngine.Domain.Authorization.csproj", "{E2F05B81-080B-4CF0-93C3-D02C8C4DEBE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFEngine.Application.AuthorizationServer", "src\Application\WFEngine.Application.AuthorizationServer\WFEngine.Application.AuthorizationServer.csproj", "{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFEngine.Infrastructure.AuthorizationServer", "src\Infrastructure\WFEngine.Infrastructure.AuthorizationServer\WFEngine.Infrastructure.AuthorizationServer.csproj", "{E90D6749-EC2A-4072-A36D-FA46E0127AF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,6 +139,30 @@ Global
 		{E2F05B81-080B-4CF0-93C3-D02C8C4DEBE6}.Release|arm64.Build.0 = Release|Any CPU
 		{E2F05B81-080B-4CF0-93C3-D02C8C4DEBE6}.Release|x86.ActiveCfg = Release|Any CPU
 		{E2F05B81-080B-4CF0-93C3-D02C8C4DEBE6}.Release|x86.Build.0 = Release|Any CPU
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}.Debug|arm64.Build.0 = Debug|Any CPU
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}.Debug|x86.Build.0 = Debug|Any CPU
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}.Release|arm64.ActiveCfg = Release|Any CPU
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}.Release|arm64.Build.0 = Release|Any CPU
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}.Release|x86.ActiveCfg = Release|Any CPU
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}.Release|x86.Build.0 = Release|Any CPU
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Debug|arm64.Build.0 = Debug|Any CPU
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Debug|x86.Build.0 = Debug|Any CPU
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Release|arm64.ActiveCfg = Release|Any CPU
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Release|arm64.Build.0 = Release|Any CPU
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Release|x86.ActiveCfg = Release|Any CPU
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,6 +180,8 @@ Global
 		{83AC7828-5034-4F11-B655-94EC266D6946} = {D0F29B98-12FE-40D1-B526-3DD8EC629807}
 		{D2A4DE51-ADFD-4C46-A5B4-F7B2C5C8E92E} = {DF386653-2BA2-4AA0-A9C9-DB68E354A357}
 		{E2F05B81-080B-4CF0-93C3-D02C8C4DEBE6} = {83220F9C-5627-49E3-82E7-F88D8125F019}
+		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A} = {A22AA701-10DA-401A-B163-5DC8EEAE4A00}
+		{E90D6749-EC2A-4072-A36D-FA46E0127AF9} = {D0F29B98-12FE-40D1-B526-3DD8EC629807}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB3F1C06-FC9B-4793-A5AA-8AA310783DE8}

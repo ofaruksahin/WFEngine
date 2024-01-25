@@ -11,6 +11,7 @@ namespace WFEngine.Domain.Common.Contracts
         void UpdateRange(List<TEntity> entities);
         void Delete(TEntity entity);
         void DeleteRange(List<TEntity> entities);
-        Task<List<TEntity>> GetAll(RepositoryExpressionValueObject<TEntity> expression);
+        Task<TEntity> Get(RepositoryExpressions<TEntity> expression);
+        Task<List<TEntity>> GetAll(RepositoryExpressions<TEntity> expression);
     }
 }
