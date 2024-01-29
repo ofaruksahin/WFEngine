@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Domain\WFEngine.Domain.Authorization\WFEngine.Domain.Authorization.csproj" />
     <ProjectReference Include="..\..\Domain\WFEngine.Domain.Common\WFEngine.Domain.Common.csproj" />
+    <ProjectReference Include="..\WFEngine.Application.Common\WFEngine.Application.Common.csproj" />
   </ItemGroup>
 
 </Project>

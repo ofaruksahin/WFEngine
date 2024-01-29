@@ -117,25 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="AccountSubTitle" xml:space="preserve">
+    <value>Please choose one of your authorized accounts and log in.</value>
+  </data>
+  <data name="AccountTitle" xml:space="preserve">
+    <value>Log in to your WFEngine account.</value>
   </data>
   <data name="LoginButtonText" xml:space="preserve">
     <value>Log in</value>
   </data>
-  <data name="LoginSubTitle" xml:space="preserve">
-    <value>You can use your email and password to log in.</value>
-  </data>
-  <data name="LoginTitle" xml:space="preserve">
-    <value>Log in to your WFEngine account.</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="Register" xml:space="preserve">
-    <value>Register</value>
-  </data>
-  <data name="RememberMeButtonText" xml:space="preserve">
-    <value>Remember Me</value>
+  <data name="SelectLabel" xml:space="preserve">
+    <value>Choose</value>
   </data>
 </root>

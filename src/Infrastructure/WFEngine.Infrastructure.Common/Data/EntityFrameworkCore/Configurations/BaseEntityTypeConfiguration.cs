@@ -7,7 +7,7 @@ namespace WFEngine.Infrastructure.Common.Data.EntityFrameworkCore.Configurations
     public class BaseEntityTypeConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
         where TEntity : BaseEntity
     {
-        public void Configure(EntityTypeBuilder<TEntity> builder)
+        public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
             builder.HasKey(p => p.Id);
 

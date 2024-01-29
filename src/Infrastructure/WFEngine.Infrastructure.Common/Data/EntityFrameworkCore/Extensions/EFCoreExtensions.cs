@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Reflection;
 using WFEngine.Domain.Common;
 using WFEngine.Domain.Common.Enums;
 using WFEngine.Domain.Common.ValueObjects;
+using WFEngine.Infrastructure.Common.Data.EntityFrameworkCore.Attributes;
 
 namespace WFEngine.Infrastructure.Common.Data.EntityFrameworkCore.Extensions
 {
-    internal static class EFCoreExtensions
+    public static class EFCoreExtensions
     {
-        #region PaginationExtensions
+        #region Pagination Extensions
         public static IQueryable<TSource> WhereIf<TSource>(
           this IQueryable<TSource> source,
           bool condition,
@@ -73,6 +75,22 @@ namespace WFEngine.Infrastructure.Common.Data.EntityFrameworkCore.Extensions
             var propAsObject = Expression.Convert(property, typeof(object));
 
             return Expression.Lambda<Func<T, object>>(propAsObject, parameter);
+        }
+        #endregion
+
+        #region ModelBuilder Extensions
+        public static ModelBuilder ConfigureModelBuilder(this ModelBuilder @this, Type dbContext)
+        {
+            @this.ApplyConfigurationsFromAssembly(dbContext.Assembly, type =>
+            {
+                var attribute = (DbContextEntityTypeConfigurationAttribute)type.GetCustomAttribute(typeof(DbContextEntityTypeConfigurationAttribute));
+
+                if (attribute is null) return false;
+
+                return attribute.DbContext == dbContext;
+            });
+
+            return @this;
         }
         #endregion
     }

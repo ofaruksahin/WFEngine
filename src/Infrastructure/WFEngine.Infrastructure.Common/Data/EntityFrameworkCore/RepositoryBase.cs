@@ -7,12 +7,13 @@ using WFEngine.Infrastructure.Common.Data.EntityFrameworkCore.Extensions;
 
 namespace WFEngine.Infrastructure.Common.Data.EntityFrameworkCore
 {
-    public class RepositoryBase<TEntity> : IRepository<TEntity>
+    public class RepositoryBase<TDbContext,TEntity> : IRepository<TEntity>
+        where TDbContext : DbContext
         where TEntity : BaseEntity
     {
-        private readonly BaseDbContext _context;
+        private readonly TDbContext _context;
 
-        public RepositoryBase(BaseDbContext context)
+        public RepositoryBase(TDbContext context)
         {
             _context = context;
         }
@@ -59,9 +60,9 @@ namespace WFEngine.Infrastructure.Common.Data.EntityFrameworkCore
             return await GetQuery(expression).ToListAsync();
         }
 
-        private IQueryable<TEntity> GetQuery(RepositoryExpressions<TEntity> expression)
+        protected IQueryable<TEntity> GetQuery(RepositoryExpressions<TEntity> expression)
         {
-            var query = _context.Set<TEntity>().AsQueryable();
+            var query = _context.Set<TEntity>().AsQueryable<TEntity>();
 
             if (expression.Filter is not null)
                 query = expression.Filter(query);

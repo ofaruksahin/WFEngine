@@ -8,6 +8,7 @@ builder.AddOpenIdDictServer(builder.Configuration);
 var app = builder.Build();
 
 app.AddWFEngineAuthorizationDependencies();
+await app.UseOpenIdDict(builder.Configuration);
 
 app.UseHsts();
 app.UseHttpsRedirection();

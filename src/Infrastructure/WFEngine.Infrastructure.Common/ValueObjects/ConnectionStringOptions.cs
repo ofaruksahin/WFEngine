@@ -6,5 +6,6 @@ namespace WFEngine.Infrastructure.Common.ValueObjects
     {
         public string Key => "ConnectionStrings";
         public string AuthorizationConfigurationDbContext { get; set; }
+        public string AuthorizationPersistedGrantDbContext { get; set; }
     }
 }

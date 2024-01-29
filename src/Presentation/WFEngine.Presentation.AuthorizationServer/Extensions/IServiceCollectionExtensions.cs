@@ -1,9 +1,13 @@
-﻿using Serilog;
-using System.Reflection;
+﻿using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
 using WFEngine.Application.Common.Extensions;
 using WFEngine.Application.Common.Logging;
-using WFEngine.Application.Common.Resources;
+using WFEngine.Application.Common.Options;
 using WFEngine.Domain.Common.ValueObjects;
+using WFEngine.Infrastructure.AuthorizationServer.Data.EntityFrameworkCore;
+using WFEngine.Infrastructure.Common.IoC.Extensions;
+using WFEngine.Infrastructure.Common.ValueObjects;
 using WFEngine.Presentation.AuthorizationServer.Middlewares;
 
 namespace WFEngine.Presentation.AuthorizationServer.Extensions
@@ -49,17 +53,33 @@ namespace WFEngine.Presentation.AuthorizationServer.Extensions
                 .Services
                 .AddControllersWithViews()
                 .AddMvcLocalization()
-                .AddViewLocalization()
-                .AddDataAnnotationsLocalization(configure =>
-                {
-                    configure.DataAnnotationLocalizerProvider = (type, factory) =>
-                    {
-                        var assemblyName = new AssemblyName(typeof(ValidationResources).GetTypeInfo().Assembly.FullName!);
-                        return factory.Create(nameof(ValidationResources), assemblyName.Name!);
-                    };
-                });
+                .AddViewLocalization();
 
             @this.Host.UseSerilog();
+
+            @this.Services.AddMediatR(configure =>
+            {
+                var mediatorOptions = configuration.GetOptions<MediatorOptions>();
+                configure.RegisterServicesFromAssemblies(mediatorOptions.Assemblies);
+            });
+
+            var mapperOptions = configuration.GetOptions<MapperOptions>();
+            @this.Services.AddAutoMapper(mapperOptions.Assemblies);
+
+            @this.Services.AddFluentValidation(configure =>
+            {
+                var validatorOptions = configuration.GetOptions<FluentValidationOptions>();
+                configure.RegisterValidatorsFromAssemblies(validatorOptions.Assemblies);
+            });
+
+            @this.Services.AddDbContext<AuthorizationPersistedGrantDbContext>(configure =>
+            {
+                var connectionStringsOptions = configuration.GetOptions<ConnectionStringOptions>();
+
+                configure.UseMySQL(connectionStringsOptions.AuthorizationPersistedGrantDbContext);
+            });
+
+            @this.Services.InjectServices();
 
             return @this;
         }
