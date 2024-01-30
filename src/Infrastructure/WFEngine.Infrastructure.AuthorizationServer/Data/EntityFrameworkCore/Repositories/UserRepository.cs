@@ -1,22 +1,24 @@
-﻿    using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WFEngine.Domain.Authorization.Entities;
 using WFEngine.Domain.Authorization.Repositories;
 using WFEngine.Domain.Common.Enums;
 using WFEngine.Domain.Common.ValueObjects;
 using WFEngine.Infrastructure.Common.Data.EntityFrameworkCore;
+using WFEngine.Infrastructure.Common.Interceptors.Caching.Attributes;
 using WFEngine.Infrastructure.Common.IoC.Attributes;
 
 namespace WFEngine.Infrastructure.AuthorizationServer.Data.EntityFrameworkCore.Repositories
 {
-    [Inject(ServiceLifetime.Scoped)]
-    public class UserRepository : RepositoryBase<AuthorizationPersistedGrantDbContext,User>, IUserRepository
+    [Inject(lifetime: ServiceLifetime.Scoped, useWithInterceptors: true)]
+    public class UserRepository : RepositoryBase<AuthorizationPersistedGrantDbContext, User>, IUserRepository
     {
-        public UserRepository(AuthorizationPersistedGrantDbContext context) 
+        public UserRepository(AuthorizationPersistedGrantDbContext context)
             : base(context)
         {
         }
 
+        [Cache("Deneme:{email}")]
         public async Task<User> GetUserWithEmailAndPassword(string email, string password)
         {
             var query = new RepositoryExpressions<User>()

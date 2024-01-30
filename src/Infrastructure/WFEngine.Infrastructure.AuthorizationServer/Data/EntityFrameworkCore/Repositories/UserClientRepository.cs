@@ -9,7 +9,7 @@ using WFEngine.Infrastructure.Common.IoC.Attributes;
 
 namespace WFEngine.Infrastructure.AuthorizationServer.Data.EntityFrameworkCore.Repositories
 {
-    [Inject(ServiceLifetime.Scoped)]
+    [Inject(lifetime: ServiceLifetime.Scoped, useWithInterceptors: true)]
     public class UserClientRepository : RepositoryBase<AuthorizationPersistedGrantDbContext, UserClient>, IUserClientRepository
     {
         public UserClientRepository(AuthorizationPersistedGrantDbContext context)

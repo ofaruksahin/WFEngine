@@ -6,10 +6,12 @@ namespace WFEngine.Infrastructure.Common.IoC.Attributes
     public class InjectAttribute : Attribute
     {
         public ServiceLifetime Lifetime { get; private set; }
+        public bool UseWithInterceptors { get; private set; }
 
-        public InjectAttribute(ServiceLifetime lifetime)
+        public InjectAttribute(ServiceLifetime lifetime, bool useWithInterceptors = false)
         {
             Lifetime = lifetime;
+            UseWithInterceptors = useWithInterceptors;
         }
     }
 }

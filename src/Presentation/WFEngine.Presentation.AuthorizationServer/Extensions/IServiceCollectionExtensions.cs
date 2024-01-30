@@ -6,6 +6,7 @@ using WFEngine.Application.Common.Logging;
 using WFEngine.Application.Common.Options;
 using WFEngine.Domain.Common.ValueObjects;
 using WFEngine.Infrastructure.AuthorizationServer.Data.EntityFrameworkCore;
+using WFEngine.Infrastructure.Common.Interceptors.Extensions;
 using WFEngine.Infrastructure.Common.IoC.Extensions;
 using WFEngine.Infrastructure.Common.ValueObjects;
 using WFEngine.Presentation.AuthorizationServer.Middlewares;
@@ -80,6 +81,7 @@ namespace WFEngine.Presentation.AuthorizationServer.Extensions
             });
 
             @this.Services.InjectServices();
+            @this.Services.AddRepositoryInterceptors();
 
             return @this;
         }
