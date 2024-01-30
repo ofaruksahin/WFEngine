@@ -2,7 +2,7 @@
 
 namespace WFEngine.Presentation.AuthorizationServer.Middlewares
 {
-    public class CustomExceptionHandler : IExceptionHandler
+    internal class CustomExceptionHandler : IExceptionHandler
     {
         private readonly ILogger<CustomExceptionHandler> _logger;
 

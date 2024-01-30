@@ -34,6 +34,20 @@ namespace WFEngine.Infrastructure.AuthorizationServer.Data.EntityFrameworkCore.E
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
+                .HasMany(p => p.Claims)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId)
+                .HasPrincipalKey(p => p.Id)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasMany(p => p.Clients)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId)
+                .HasPrincipalKey(p => p.Id)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
                 .ToTable("Users");
 
             base.Configure(builder);

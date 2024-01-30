@@ -6,11 +6,16 @@ namespace WFEngine.Presentation.AuthorizationServer.ViewModels
 {
     public class LoginViewModel
     {
-        public string Email { get; set; } = "ofaruksahin@outlook.com.tr";
-        public string Password { get; set; } = "123456789";
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
         public bool RememberMe { get; set; }
         public string SelectedTenantId { get; set; }
         public List<SelectListItem> Tenants { get; set; }
+
+        public LoginViewModel()
+        {
+            Tenants = new List<SelectListItem>();
+        }
 
         public void AddUser(User user)
         {

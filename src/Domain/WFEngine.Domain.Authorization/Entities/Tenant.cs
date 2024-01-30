@@ -10,11 +10,14 @@ namespace WFEngine.Domain.Authorization.Entities
         public string Domain { get; set; }
 
         public virtual ICollection<TenantUser> TenantUsers { get; set; }
+        public virtual ICollection<UserClient> Clients { get; set; }
 
         public Tenant()
         {
-            TenantUsers = new List<TenantUser>();
             Status = EnumStatus.Active;
+
+            TenantUsers = new List<TenantUser>();
+            Clients = new List<UserClient>();
         }
 
         public Tenant(string tenantId, string tenantName, string domain)
@@ -23,8 +26,10 @@ namespace WFEngine.Domain.Authorization.Entities
             TenantName = tenantName;
             Domain = domain;
 
-            TenantUsers = new List<TenantUser>();
             Status = EnumStatus.Active;
+
+            TenantUsers = new List<TenantUser>();
+            Clients = new List<UserClient>();
         }
     }
 }

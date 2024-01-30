@@ -6,6 +6,7 @@
         public const string MustBeEmail = "MustBeEmail";
         public const string MaximumLength200Characters = "MaximumLength200Characters";
         public const string MaximumLength50Characters = "MaximumLength50Characters";
+        public const string MaximumLength16Characters = "MaximumLength16Characters";
         public const string NotFound = "NotFound";
         public const string Success = "Success";
     }

@@ -6,44 +6,44 @@ using WFEngine.Infrastructure.Common.Data.EntityFrameworkCore.Configurations;
 
 namespace WFEngine.Infrastructure.AuthorizationServer.Data.EntityFrameworkCore.EntityTypeConfigurations
 {
-    [DbContextEntityTypeConfiguration(typeof(AuthorizationPersistedGrantDbContext))]
-    public class TenantEntityTypeConfiguration : BaseEntityTypeConfiguration<Tenant>
-    {
-        public override void Configure(EntityTypeBuilder<Tenant> builder)
+	[DbContextEntityTypeConfiguration(typeof(AuthorizationPersistedGrantDbContext))]
+    public class UserClientEntityTypeConfiguration : BaseEntityTypeConfiguration<UserClient>
+	{
+        public override void Configure(EntityTypeBuilder<UserClient> builder)
         {
+            builder
+                .Property(p => p.ClientId)
+                .HasMaxLength(200)
+                .IsRequired();
+
+            builder
+                .Property(p => p.UserId)
+                .IsRequired();
+
             builder
                 .Property(p => p.TenantId)
                 .HasMaxLength(16)
                 .IsRequired();
 
             builder
-                .Property(p => p.TenantName)
-                .HasMaxLength(100)
-                .IsRequired();
+                .HasOne(p => p.User)
+                .WithMany(p => p.Clients)
+                .HasForeignKey(p => p.UserId)
+                .HasPrincipalKey(p => p.Id)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .Property(p => p.Domain)
-                .HasMaxLength(200)
-                .IsRequired();
-
-            builder
-                .HasMany(p => p.TenantUsers)
-                .WithOne(p => p.Tenant)
+                .HasOne(p => p.Tenant)
+                .WithMany(p => p.Clients)
                 .HasForeignKey(p => p.TenantId)
                 .HasPrincipalKey(p => p.TenantId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .HasMany(p => p.Clients)
-                .WithOne(p => p.Tenant)
-                .HasForeignKey(p => p.TenantId)
-                .HasPrincipalKey(p => p.TenantId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder
-                .ToTable("Tenants");
+                .ToTable("UserClients");
 
             base.Configure(builder);
         }
     }
 }
+

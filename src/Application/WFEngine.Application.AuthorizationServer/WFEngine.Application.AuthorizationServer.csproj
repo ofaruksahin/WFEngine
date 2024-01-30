@@ -12,4 +12,10 @@
     <ProjectReference Include="..\WFEngine.Application.Common\WFEngine.Application.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Queries\GetUserClaimsForLogin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Queries\GetUserClaimsForLogin\" />
+  </ItemGroup>
 </Project>

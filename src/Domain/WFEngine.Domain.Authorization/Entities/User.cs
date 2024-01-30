@@ -9,7 +9,10 @@ namespace WFEngine.Domain.Authorization.Entities
         public string Email { get; set; }
         public string Password { get; set; }
         public string Language { get; set; }
+
         public virtual ICollection<TenantUser> Tenants { get; set; }
+        public virtual ICollection<UserClaim> Claims { get; set; }
+        public virtual ICollection<UserClient> Clients { get; set; }
 
         public User()
         {
@@ -17,6 +20,8 @@ namespace WFEngine.Domain.Authorization.Entities
             Status = EnumStatus.Active;
 
             Tenants = new List<TenantUser>();
+            Claims = new List<UserClaim>();
+            Clients = new List<UserClient>();
         }
 
         public User(string email, string password)
@@ -27,6 +32,8 @@ namespace WFEngine.Domain.Authorization.Entities
             Status = EnumStatus.Active;
 
             Tenants = new List<TenantUser>();
+            Claims = new List<UserClaim>();
+            Clients = new List<UserClient>();
         }
     }
 }

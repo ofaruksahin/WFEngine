@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using System.Net;
 using WFEngine.Application.Common.Constants;
@@ -56,18 +55,15 @@ namespace WFEngine.Application.AuthorizationServer.Queries.GetUserEmailAndPasswo
     public class GetUserEmailAndPasswordQueryHandler : IRequestHandler<GetUserEmailAndPasswordQuery, ApiResponse<User>>
     {
         private readonly IStringLocalizer<ValidationMessageConstants> _l;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICryptographyService _cryptographyService;
         private readonly IUserRepository _userRepository;
 
         public GetUserEmailAndPasswordQueryHandler(
             IStringLocalizer<ValidationMessageConstants> l,
-            IHttpContextAccessor httpContextAccessor,
             ICryptographyService cryptographyService,
             IUserRepository userRepository)
         {
             _l = l;
-            _httpContextAccessor = httpContextAccessor;
             _cryptographyService = cryptographyService;
             _userRepository = userRepository;
         }

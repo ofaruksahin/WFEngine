@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 using System.Security.Claims;
+using WFEngine.Application.AuthorizationServer.Queries.GetUserClaimsForLogin;
 using WFEngine.Application.Common.Models;
+using WFEngine.Domain.Authorization.Entities;
 using WFEngine.Presentation.AuthorizationServer.Exceptions;
 using WFEngine.Presentation.AuthorizationServer.Extensions;
 using WFEngine.Presentation.AuthorizationServer.ViewModels;
@@ -50,44 +51,30 @@ namespace WFEngine.Presentation.AuthorizationServer.Controllers
         {
             ModelState.Clear();
 
-            var query = loginViewModel.ToGetUserEmailAndPasswordQuery();
-            var response = await _mediator.Send(query);
+            var getUserQuery = loginViewModel.ToGetUserEmailAndPasswordQuery();
+            var getUserQueryResponse = await _mediator.Send(getUserQuery);
 
             if (button == "login")
             {
-                if (!response.IsSuccess)
+                if (!getUserQueryResponse.IsSuccess)
                 {
-                    MapModelState(response);
+                    MapModelState(getUserQueryResponse);
                     return View(new LoginViewModel());
                 }
 
-                loginViewModel.AddUser(response.Data);
+                loginViewModel.AddUser(getUserQueryResponse.Data);
 
                 return View("~/Views/Authorization/SelectAccount.cshtml", loginViewModel);
             }
 
-            var selectedTenant = response
-                .Data
-                .Tenants
-                .Where(f => f.TenantId == loginViewModel.SelectedTenantId)
-                .Select(f => f.Tenant)
-                .FirstOrDefault();
+            if (!getUserQueryResponse.IsSuccess) throw new ClaimsNotFoundException();
 
-            var request = HttpContext.GetOpenIddictServerRequest();
+            var getUserClaimsQuery = new GetUserClaimsForLoginQuery(loginViewModel.Email, loginViewModel.Password, loginViewModel.SelectedTenantId);
+            var getUserClaimsResponse = await _mediator.Send(getUserClaimsQuery);
 
-            var identity = new ClaimsIdentity(
-                authenticationType: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme,
-                nameType: Claims.Name,
-                roleType: Claims.Role);
+            if (!getUserClaimsResponse.IsSuccess) throw new ClaimsNotFoundException();
 
-            identity.AddClaim(new Claim(Claims.Subject, response.Data.Id.ToString()));
-            identity.AddClaim(new Claim(Claims.Email, response.Data.Email));
-            identity.AddClaim(new Claim("tenant_id", selectedTenant.TenantId));
-            identity.SetScopes(request.GetScopes());
-            identity.SetResources(await _scopeManager.ListResourcesAsync(identity.GetScopes()).ToListAsync());
-            identity.SetDestinations(claim => new[] { Destinations.AccessToken, Destinations.IdentityToken});
-
-            return new SignInResult(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties());
+            return await SignIn(getUserClaimsResponse.Data);
         }
 
         [HttpGet]
@@ -95,6 +82,8 @@ namespace WFEngine.Presentation.AuthorizationServer.Controllers
         {
             return View();
         }
+
+        #region Private Methods
 
         private void MapModelState<T>(ApiResponse<T> apiResponse)
             where T : class
@@ -104,5 +93,31 @@ namespace WFEngine.Presentation.AuthorizationServer.Controllers
                 ModelState.AddModelError(string.Empty, message);
             }
         }
+
+        private async Task<IActionResult> SignIn(List<UserClaim> userClaims)
+        {
+            var request = HttpContext.GetOpenIddictServerRequest();
+
+            var identity = new ClaimsIdentity(
+                authenticationType: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme,
+                nameType: Claims.Name,
+                roleType: Claims.Role);
+
+            userClaims.ForEach(claim =>
+            {
+                if (claim.IsAddToken)
+                {
+                    identity.AddClaim(new Claim(claim.Name, claim.Value));
+                }
+            });
+
+            identity.SetScopes(request.GetScopes());
+            identity.SetResources(await _scopeManager.ListResourcesAsync(identity.GetScopes()).ToListAsync());
+            identity.SetDestinations(claim => new[] { Destinations.AccessToken, Destinations.IdentityToken });
+
+            return new SignInResult(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties());
+        }
+
+        #endregion
     }
 }

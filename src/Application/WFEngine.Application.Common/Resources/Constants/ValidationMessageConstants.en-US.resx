@@ -123,16 +123,19 @@
   <data name="MaximumLength50Characters" xml:space="preserve">
     <value>{0} Please do not enter more than 50 characters.</value>
   </data>
+  <data name="MaximumLength16Characters" xml:space="preserve">
+    <value>{0} Please do not enter more than 16 characters.</value>
+  </data>
   <data name="MustBeEmail" xml:space="preserve">
     <value>{0} Please enter your email.</value>
   </data>
   <data name="NotFound" xml:space="preserve">
-    <value>{0} Record not found.</value>
+    <value>Record not found.</value>
   </data>
   <data name="Required" xml:space="preserve">
     <value>{0} This field must not be empty</value>
   </data>
   <data name="Success" xml:space="preserve">
-    <value>{0} Our transaction has been successfully completed.</value>
+    <value>Our transaction has been successfully completed.</value>
   </data>
 </root>
