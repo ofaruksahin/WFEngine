@@ -34,8 +34,7 @@
 
                             <form asp-route="index" class="theme-form">
 
-                                @foreach (var parameter in Context.Request.HasFormContentType ?
-                                (IEnumerable<KeyValuePair<string, StringValues>>)Context.Request.Form : Context.Request.Query)
+                                @foreach (var parameter in Context.Request.Query)
                                 {
                                     <input type="hidden" name="@parameter.Key" value="@parameter.Value" />
                                 }

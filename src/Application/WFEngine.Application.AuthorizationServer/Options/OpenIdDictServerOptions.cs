@@ -19,6 +19,7 @@ namespace WFEngine.Application.AuthorizationServer.Options
         public class OpenIdDictAuthorizationClient
         {
             public string ClientId { get; set; }
+            public string ClientSecret { get; set; }
             public string[] RedirectUris { get; set; }
             public string[] PostLogoutRedirectUris { get; set; }
             public bool IsWebClient { get; set; }

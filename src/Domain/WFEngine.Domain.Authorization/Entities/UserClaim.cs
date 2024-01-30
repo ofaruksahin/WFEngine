@@ -3,7 +3,7 @@ using WFEngine.Domain.Common.Enums;
 
 namespace WFEngine.Domain.Authorization.Entities
 {
-	public class UserClaim : BaseEntity
+    public class UserClaim : BaseEntity
 	{
 		public int UserId { get; set; }
 		public string Name { get; set; }

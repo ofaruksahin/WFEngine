@@ -6,13 +6,18 @@ using WFEngine.Infrastructure.Common.Data.EntityFrameworkCore.Configurations;
 
 namespace WFEngine.Infrastructure.AuthorizationServer.Data.EntityFrameworkCore.EntityTypeConfigurations
 {
-	[DbContextEntityTypeConfiguration(typeof(AuthorizationPersistedGrantDbContext))]
+    [DbContextEntityTypeConfiguration(typeof(AuthorizationPersistedGrantDbContext))]
     public class UserClientEntityTypeConfiguration : BaseEntityTypeConfiguration<UserClient>
 	{
         public override void Configure(EntityTypeBuilder<UserClient> builder)
         {
             builder
                 .Property(p => p.ClientId)
+                .HasMaxLength(200)
+                .IsRequired();
+
+            builder
+                .Property(p => p.ClientSecret)
                 .HasMaxLength(200)
                 .IsRequired();
 

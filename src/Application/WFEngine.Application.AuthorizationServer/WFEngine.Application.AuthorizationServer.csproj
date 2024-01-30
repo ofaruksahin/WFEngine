@@ -15,7 +15,4 @@
   <ItemGroup>
     <None Remove="Queries\GetUserClaimsForLogin\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Queries\GetUserClaimsForLogin\" />
-  </ItemGroup>
 </Project>

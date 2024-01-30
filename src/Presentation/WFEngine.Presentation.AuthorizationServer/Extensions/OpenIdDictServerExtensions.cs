@@ -50,7 +50,8 @@ namespace WFEngine.Presentation.AuthorizationServer.Extensions
 
                         configure
                             .UseAspNetCore()
-                            .EnableAuthorizationEndpointPassthrough();
+                            .EnableAuthorizationEndpointPassthrough()
+                            .EnableTokenEndpointPassthrough();
                     })
                     .AddValidation(options =>
                     {
@@ -80,7 +81,7 @@ namespace WFEngine.Presentation.AuthorizationServer.Extensions
                     var clientEntity = new OpenIddictApplicationDescriptor
                     {
                         ClientId = client.ClientId,
-                        ClientType = ClientTypes.Public,
+                        ClientType = client.IsWebClient ? ClientTypes.Public : ClientTypes.Confidential,
                         Requirements = { Requirements.Features.ProofKeyForCodeExchange },
                         Permissions =
                         {
@@ -93,6 +94,12 @@ namespace WFEngine.Presentation.AuthorizationServer.Extensions
                             Permissions.Scopes.Roles,
                         }
                     };
+
+                    if (!string.IsNullOrEmpty(client.ClientSecret))
+                    {
+                        clientEntity.ClientSecret = client.ClientSecret;
+                        clientEntity.Permissions.Add(Permissions.GrantTypes.ClientCredentials);
+                    }
 
                     foreach (var redirectUri in client.RedirectUris)
                         clientEntity.RedirectUris.Add(new Uri(redirectUri));

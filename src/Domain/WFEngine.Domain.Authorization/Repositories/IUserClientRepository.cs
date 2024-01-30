@@ -4,7 +4,7 @@ namespace WFEngine.Domain.Authorization.Repositories
 {
     public interface IUserClientRepository
 	{
-		Task<UserClient> GetClient(string clientId);
+		Task<UserClient> GetClient(string clientId,string clientSecret);
 	}
 }
 

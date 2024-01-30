@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿    using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WFEngine.Domain.Authorization.Entities;
 using WFEngine.Domain.Authorization.Repositories;
@@ -29,7 +29,8 @@ namespace WFEngine.Infrastructure.AuthorizationServer.Data.EntityFrameworkCore.R
                         user =>
                             user.Email == email &&
                             user.Password == password &&
-                            user.StatusId == (int)EnumStatus.Active));
+                            user.StatusId == (int)EnumStatus.Active &&
+                            user.Tenants.Any(tenantUser => tenantUser.Tenant.StatusId == (int)EnumStatus.Active)));
 
             return await GetQuery(query).FirstOrDefaultAsync();
         }

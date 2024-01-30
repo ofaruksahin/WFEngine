@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 using System.Security.Claims;
-using WFEngine.Application.AuthorizationServer.Queries.GetUserClaimsForLogin;
+using WFEngine.Application.AuthorizationServer.Queries.GetUserClaimsForAuthorizationCodeFlow;
 using WFEngine.Application.Common.Models;
 using WFEngine.Domain.Authorization.Entities;
 using WFEngine.Presentation.AuthorizationServer.Exceptions;
@@ -19,6 +20,7 @@ namespace WFEngine.Presentation.AuthorizationServer.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IOpenIddictScopeManager _scopeManager;
+
         public AuthorizationController(
             IMediator mediator,
             IOpenIddictScopeManager scopeManager)
@@ -32,18 +34,38 @@ namespace WFEngine.Presentation.AuthorizationServer.Controllers
         {
             var request = HttpContext.GetOpenIddictServerRequest();
 
-            if (request.IsClientCredentialsGrantType())
-            {
+            if (!request.IsAuthorizationCodeFlow())
                 throw new UnsupportedAuthorizationFlowException();
-            }
-            else if (request.IsAuthorizationCodeFlow())
+
+            return View(new LoginViewModel());
+        }
+
+        [HttpPost, Route("token")]
+        public async Task<IActionResult> Token()
+        {
+            var request = HttpContext.GetOpenIddictServerRequest();
+
+            if (request.IsAuthorizationCodeGrantType() || request.IsRefreshTokenGrantType())
             {
-                return View(new LoginViewModel());
+                var result = await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+
+                var identity = new ClaimsIdentity(result.Principal.Claims,
+                     authenticationType: TokenValidationParameters.DefaultAuthenticationType,
+                     nameType: Claims.Name,
+                     roleType: Claims.Role);
+
+                identity.SetScopes(request.GetScopes());
+                identity.SetResources(await _scopeManager.ListResourcesAsync(identity.GetScopes()).ToListAsync());
+                identity.SetDestinations(claim => new[] { Destinations.AccessToken, Destinations.IdentityToken });
+
+                return new SignInResult(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties());
             }
-            else
+            else if (request.IsClientCredentialsGrantType())
             {
-                throw new UnsupportedAuthorizationFlowException();
+                return View();
             }
+
+            throw new UnsupportedAuthorizationFlowException();
         }
 
         [HttpPost, Route("authorize")]
@@ -69,7 +91,7 @@ namespace WFEngine.Presentation.AuthorizationServer.Controllers
 
             if (!getUserQueryResponse.IsSuccess) throw new ClaimsNotFoundException();
 
-            var getUserClaimsQuery = new GetUserClaimsForLoginQuery(loginViewModel.Email, loginViewModel.Password, loginViewModel.SelectedTenantId);
+            var getUserClaimsQuery = new GetUserClaimsForAuthorizationCodeFlowQuery(loginViewModel.Email, loginViewModel.Password, loginViewModel.SelectedTenantId);
             var getUserClaimsResponse = await _mediator.Send(getUserClaimsQuery);
 
             if (!getUserClaimsResponse.IsSuccess) throw new ClaimsNotFoundException();

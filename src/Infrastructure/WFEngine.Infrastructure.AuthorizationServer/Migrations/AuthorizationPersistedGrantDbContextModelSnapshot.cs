@@ -7,7 +7,7 @@ using WFEngine.Infrastructure.AuthorizationServer.Data.EntityFrameworkCore;
 
 #nullable disable
 
-namespace WFEngine.Infrastructure.AuthorizationServer.Migrations.AuthorizationPersistedGrantDb
+namespace WFEngine.Infrastructure.AuthorizationServer.Migrations
 {
     [DbContext(typeof(AuthorizationPersistedGrantDbContext))]
     partial class AuthorizationPersistedGrantDbContextModelSnapshot : ModelSnapshot
@@ -151,6 +151,104 @@ namespace WFEngine.Infrastructure.AuthorizationServer.Migrations.AuthorizationPe
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("WFEngine.Domain.Authorization.Entities.UserClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<bool>("IsAddToken")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("WFEngine.Domain.Authorization.Entities.UserClient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("ClientSecret")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserClients", (string)null);
+                });
+
             modelBuilder.Entity("WFEngine.Domain.Authorization.Entities.TenantUser", b =>
                 {
                     b.HasOne("WFEngine.Domain.Authorization.Entities.Tenant", "Tenant")
@@ -171,13 +269,50 @@ namespace WFEngine.Infrastructure.AuthorizationServer.Migrations.AuthorizationPe
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("WFEngine.Domain.Authorization.Entities.UserClaim", b =>
+                {
+                    b.HasOne("WFEngine.Domain.Authorization.Entities.User", "User")
+                        .WithMany("Claims")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WFEngine.Domain.Authorization.Entities.UserClient", b =>
+                {
+                    b.HasOne("WFEngine.Domain.Authorization.Entities.Tenant", "Tenant")
+                        .WithMany("Clients")
+                        .HasForeignKey("TenantId")
+                        .HasPrincipalKey("TenantId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WFEngine.Domain.Authorization.Entities.User", "User")
+                        .WithMany("Clients")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Tenant");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("WFEngine.Domain.Authorization.Entities.Tenant", b =>
                 {
+                    b.Navigation("Clients");
+
                     b.Navigation("TenantUsers");
                 });
 
             modelBuilder.Entity("WFEngine.Domain.Authorization.Entities.User", b =>
                 {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Clients");
+
                     b.Navigation("Tenants");
                 });
 #pragma warning restore 612, 618
