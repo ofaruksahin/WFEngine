@@ -115,7 +115,8 @@ namespace WFEngine.Application.AuthorizationServer.Queries.GetUserClaimsForAutho
 
             return response
                 .SetSuccess()
-                .AddData(claims);
+                .AddData(claims)
+                .AddMessage(_l[ValidationMessageConstants.Success]);
         }
     }
 }

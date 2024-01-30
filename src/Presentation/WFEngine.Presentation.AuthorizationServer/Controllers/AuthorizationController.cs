@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 using System.Security.Claims;
+using WFEngine.Application.AuthorizationServer.Queries.GetClaimsForClientCredentials;
 using WFEngine.Application.AuthorizationServer.Queries.GetUserClaimsForAuthorizationCodeFlow;
 using WFEngine.Application.Common.Models;
 using WFEngine.Domain.Authorization.Entities;
@@ -30,7 +31,7 @@ namespace WFEngine.Presentation.AuthorizationServer.Controllers
         }
 
         [HttpGet, Route("authorize")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var request = HttpContext.GetOpenIddictServerRequest();
 
@@ -62,7 +63,12 @@ namespace WFEngine.Presentation.AuthorizationServer.Controllers
             }
             else if (request.IsClientCredentialsGrantType())
             {
-                return View();
+                var getUserClaimsQuery = new GetUserClaimsForClientCredentialsFlowQuery(request.ClientId, request.ClientSecret);
+                var getUserClaimsResponse = await _mediator.Send(getUserClaimsQuery);
+
+                if (!getUserClaimsResponse.IsSuccess) throw new ClaimsNotFoundException();
+
+                return await SignIn(getUserClaimsResponse.Data);
             }
 
             throw new UnsupportedAuthorizationFlowException();
