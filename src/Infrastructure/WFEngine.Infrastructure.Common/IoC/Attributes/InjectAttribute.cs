@@ -7,11 +7,13 @@ namespace WFEngine.Infrastructure.Common.IoC.Attributes
     {
         public ServiceLifetime Lifetime { get; private set; }
         public bool UseWithInterceptors { get; private set; }
+        public bool IgnoreInterface { get; private set; }
 
-        public InjectAttribute(ServiceLifetime lifetime, bool useWithInterceptors = false)
+        public InjectAttribute(ServiceLifetime lifetime, bool useWithInterceptors = false, bool ignoreInterface = false)
         {
             Lifetime = lifetime;
             UseWithInterceptors = useWithInterceptors;
+            IgnoreInterface = ignoreInterface;
         }
     }
 }

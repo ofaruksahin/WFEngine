@@ -32,7 +32,7 @@ namespace WFEngine.Infrastructure.Common.Interceptors.Caching
                 return returnValue;
             }
 
-            var cacheKeys = new List<string>();
+            var cacheKeys = new List<CacheAttribute>();
 
             var methodParameters = invocation.Method.GetParameters();
 
@@ -55,7 +55,7 @@ namespace WFEngine.Infrastructure.Common.Interceptors.Caching
                     {
                         var properties = argumentValue.GetType().GetProperties();
 
-                        foreach(var property in properties)
+                        foreach (var property in properties)
                         {
                             var propertyName = property.Name;
                             var propertyValue = property.GetValue(argumentValue);
@@ -65,18 +65,68 @@ namespace WFEngine.Infrastructure.Common.Interceptors.Caching
                     }
                 }
 
-                cacheKeys.Add(key);
+                cacheAttribute.Key = key;
+
+                cacheKeys.Add(cacheAttribute);
             }
 
-            returnValue = await proceed(invocation, proceedInfo).ConfigureAwait(false);
+            IDictionary<string, bool> keyExists = new Dictionary<string, bool>();
+            var cacheExistsTasks = new List<Task>();
+            var cacheAddTasks = new List<Task>();
 
-            if(returnValue is null)
+            foreach (var cacheKey in cacheKeys)
             {
+                var task = Task.Run(async () =>
+                {
+                    var exists = await _cache.Any(cacheKey.Key);
 
-            }else if(returnValue is IEnumerable<object> enumerable && enumerable.Any())
-            {
+                    keyExists.TryAdd(cacheKey.Key, exists);
 
+                    return Task.CompletedTask;
+                });
+
+                cacheExistsTasks.Add(task);
             }
+
+            await Task.WhenAll(cacheExistsTasks);
+
+            if (keyExists.Values.Any(exists => exists))
+            {
+                var firstCacheKey = keyExists
+                    .Where(keyValue => keyValue.Value)
+                    .FirstOrDefault();
+
+                returnValue = await _cache.Get<TResult>(firstCacheKey.Key);
+            }
+            else
+            {
+                returnValue = await proceed(invocation, proceedInfo).ConfigureAwait(false);
+            }
+
+            foreach (var cacheAttribute in cacheAttributes)
+            {
+                if (!cacheAttribute.AddNullValue)
+                {
+                    if (returnValue is null) continue;
+                    if (returnValue is IEnumerable<object> enumerable && !enumerable.Any()) continue;
+                }
+
+                if (keyExists.TryGetValue(cacheAttribute.Key, out var hasExists))
+                {
+                    if (!hasExists)
+                    {
+                        var task = Task.Run(async () =>
+                        {
+                            await _cache.Set(cacheAttribute.Key, returnValue);
+                            return Task.CompletedTask;
+                        });
+
+                        cacheAddTasks.Add(task);
+                    }
+                }
+            }
+
+            await Task.WhenAll(cacheAddTasks);
 
             return returnValue;
         }

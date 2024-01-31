@@ -1,10 +1,13 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
 using WFEngine.Domain.Common;
+using WFEngine.Infrastructure.Common.IoC.Attributes;
 
 namespace WFEngine.Infrastructure.Common.Data.EntityFrameworkCore.Interceptors
 {
+    [Inject(lifetime: ServiceLifetime.Singleton, ignoreInterface:true)]
     public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
     {
         private readonly IMediator _mediator;

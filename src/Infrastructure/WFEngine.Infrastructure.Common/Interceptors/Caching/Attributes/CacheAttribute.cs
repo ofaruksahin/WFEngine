@@ -3,8 +3,8 @@
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class CacheAttribute : Attribute
     {
-        public string Key { get; private set; }
-        public bool AddNullValue { get; private set; }
+        public string Key { get;  set; }
+        public bool AddNullValue { get; set; }
 
         public CacheAttribute(string key, bool addNullValue = false)
         {

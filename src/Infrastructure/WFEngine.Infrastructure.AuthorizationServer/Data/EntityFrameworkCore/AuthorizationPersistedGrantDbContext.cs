@@ -7,7 +7,10 @@ namespace WFEngine.Infrastructure.AuthorizationServer.Data.EntityFrameworkCore
 {
     public class AuthorizationPersistedGrantDbContext : BaseDbContext
     {
-        public AuthorizationPersistedGrantDbContext(DbContextOptions<AuthorizationPersistedGrantDbContext> options) : base(options)
+
+        public AuthorizationPersistedGrantDbContext(
+            DbContextOptions<AuthorizationPersistedGrantDbContext> options)
+            : base(options)
         {
         }
 

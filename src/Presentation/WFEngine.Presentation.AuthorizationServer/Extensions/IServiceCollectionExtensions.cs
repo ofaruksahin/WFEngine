@@ -6,6 +6,8 @@ using WFEngine.Application.Common.Logging;
 using WFEngine.Application.Common.Options;
 using WFEngine.Domain.Common.ValueObjects;
 using WFEngine.Infrastructure.AuthorizationServer.Data.EntityFrameworkCore;
+using WFEngine.Infrastructure.Common.Caching;
+using WFEngine.Infrastructure.Common.Data.EntityFrameworkCore.Interceptors;
 using WFEngine.Infrastructure.Common.Interceptors.Extensions;
 using WFEngine.Infrastructure.Common.IoC.Extensions;
 using WFEngine.Infrastructure.Common.ValueObjects;
@@ -73,15 +75,17 @@ namespace WFEngine.Presentation.AuthorizationServer.Extensions
                 configure.RegisterValidatorsFromAssemblies(validatorOptions.Assemblies);
             });
 
-            @this.Services.AddDbContext<AuthorizationPersistedGrantDbContext>(configure =>
+            @this.Services.InjectServices();
+            @this.Services.AddRepositoryInterceptors(configuration);
+            @this.Services.AddCache(@this.Configuration);
+
+            @this.Services.AddDbContext<AuthorizationPersistedGrantDbContext>((sp, configure) =>
             {
                 var connectionStringsOptions = configuration.GetOptions<ConnectionStringOptions>();
 
                 configure.UseMySQL(connectionStringsOptions.AuthorizationPersistedGrantDbContext);
+                configure.AddInterceptors(sp.GetRequiredService<AuditableEntityInterceptor>());
             });
-
-            @this.Services.InjectServices();
-            @this.Services.AddRepositoryInterceptors();
 
             return @this;
         }

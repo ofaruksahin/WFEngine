@@ -30,6 +30,9 @@ namespace WFEngine.Infrastructure.Common.IoC.Extensions
                     .Where(i => !i.IsGenericType)
                     .FirstOrDefault();
 
+                if (injectAttribute.IgnoreInterface)
+                    firstInterface = null;
+
                 switch (injectAttribute.Lifetime)
                 {
                     case ServiceLifetime.Singleton:
