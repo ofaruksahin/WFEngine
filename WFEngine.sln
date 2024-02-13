@@ -29,9 +29,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.Presentation.Autho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.Domain.Authorization", "src\Domain\WFEngine.Domain.Authorization\WFEngine.Domain.Authorization.csproj", "{E2F05B81-080B-4CF0-93C3-D02C8C4DEBE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFEngine.Application.AuthorizationServer", "src\Application\WFEngine.Application.AuthorizationServer\WFEngine.Application.AuthorizationServer.csproj", "{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.Application.AuthorizationServer", "src\Application\WFEngine.Application.AuthorizationServer\WFEngine.Application.AuthorizationServer.csproj", "{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFEngine.Infrastructure.AuthorizationServer", "src\Infrastructure\WFEngine.Infrastructure.AuthorizationServer\WFEngine.Infrastructure.AuthorizationServer.csproj", "{E90D6749-EC2A-4072-A36D-FA46E0127AF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFEngine.Infrastructure.AuthorizationServer", "src\Infrastructure\WFEngine.Infrastructure.AuthorizationServer\WFEngine.Infrastructure.AuthorizationServer.csproj", "{E90D6749-EC2A-4072-A36D-FA46E0127AF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFEngine.Presentation.Api", "src\Presentation\WFEngine.Presentation.Api\WFEngine.Presentation.Api.csproj", "{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -163,6 +165,18 @@ Global
 		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Release|arm64.Build.0 = Release|Any CPU
 		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Release|x86.ActiveCfg = Release|Any CPU
 		{E90D6749-EC2A-4072-A36D-FA46E0127AF9}.Release|x86.Build.0 = Release|Any CPU
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}.Debug|arm64.Build.0 = Debug|Any CPU
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}.Debug|x86.Build.0 = Debug|Any CPU
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}.Release|arm64.ActiveCfg = Release|Any CPU
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}.Release|arm64.Build.0 = Release|Any CPU
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}.Release|x86.ActiveCfg = Release|Any CPU
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -182,6 +196,7 @@ Global
 		{E2F05B81-080B-4CF0-93C3-D02C8C4DEBE6} = {83220F9C-5627-49E3-82E7-F88D8125F019}
 		{ABE0AB3D-4CF6-41BF-9DCF-60EDFBEA017A} = {A22AA701-10DA-401A-B163-5DC8EEAE4A00}
 		{E90D6749-EC2A-4072-A36D-FA46E0127AF9} = {D0F29B98-12FE-40D1-B526-3DD8EC629807}
+		{C6444D8C-7C36-47A3-B252-67DBC7BC9F20} = {DF386653-2BA2-4AA0-A9C9-DB68E354A357}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB3F1C06-FC9B-4793-A5AA-8AA310783DE8}

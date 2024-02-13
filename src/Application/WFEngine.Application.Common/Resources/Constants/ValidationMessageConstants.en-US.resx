@@ -138,4 +138,7 @@
   <data name="Success" xml:space="preserve">
     <value>Our transaction has been successfully completed.</value>
   </data>
+  <data name="MaximumLength100Characters" xml:space="preserve">
+    <value>{0} Please do not enter more than 100 characters.</value>
+  </data>
 </root>
